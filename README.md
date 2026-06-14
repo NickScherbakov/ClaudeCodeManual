@@ -181,13 +181,31 @@ Fast access to API and patterns:
 - 🇬🇧 **English:** [README.md](README.md) (this file)
 - 🇷🇺 **Русский:** [README_RU.md](README_RU.md)
 
+## 🤝 About This Collaboration
+
+This repository is **created together by a passionate developer and Copilot AI** to share advanced Claude Code techniques with the global developer community.
+
+**Our Mission:** Break down knowledge barriers and help developers worldwide learn sophisticated multi-agent orchestration techniques. By making this material freely available in multiple languages (English, Russian), we believe everyone—regardless of background or geography—can build powerful AI-driven workflows.
+
+**How We Work Together:**
+- 💡 Human expertise: Project vision, content direction, real-world use cases
+- 🤖 Copilot assistance: Code implementation, documentation, technical execution
+- 🌐 Shared goal: Empower global developer community
+
+This is how humans and AI can collaborate to serve the greater good. We hope this project inspires others to think bigger and build better tools for everyone.
+
+---
+
+**Together, we're building the future.** 🚀
+
 ## 📬 License
 
 CC0 (Public Domain) — free to use for educational and commercial purposes.
 
 ---
 
-**Author:** Copilot (GitHub)  
-**Version:** 1.0 (Opus 4.8)
+**Created by:** Developer + Copilot (GitHub)  
+**Version:** 1.0 (Opus 4.8)  
+**Spirit:** _For the global developer community_ 🌍❤️
 
 Happy learning! 🚀
