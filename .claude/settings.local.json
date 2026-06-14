@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\).Source; $py3 = \\(Get-Command py -ErrorAction SilentlyContinue\\).Source; $node = \\(Get-Command node -ErrorAction SilentlyContinue\\).Source; $npx = \\(Get-Command npx -ErrorAction SilentlyContinue\\).Source; \"python: $py\"; \"py:     $py3\"; \"node:   $node\"; \"npx:    $npx\")",
+      "PowerShell(py *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Start-Process \"http://localhost:8000\"; \"Команда отправлена — браузер должен открыть http://localhost:8000\")",
+      "PowerShell(node --check \"C:\\\\ClaudeCodeManual\\\\web\\\\content.js\" 2>&1 | ForEach-Object { \"content.js: $_\" }; if \\($LASTEXITCODE -eq 0\\) { \"content.js: OK \\(синтаксис валиден\\)\" }; node --check \"C:\\\\ClaudeCodeManual\\\\web\\\\app.js\" 2>&1 | ForEach-Object { \"app.js: $_\" }; if \\($LASTEXITCODE -eq 0\\) { \"app.js: OK \\(синтаксис валиден\\)\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:8000/content.js?v=5\" -UseBasicParsing -TimeoutSec 5; $hasNew = $r.Content -match 'скопился завал'; $hasOld = $r.Content -match 'специально построенное упрощение'; \"HTTP $\\($r.StatusCode\\), content.js байт: $\\($r.Content.Length\\)\"; \"новый intro \\(problem-first\\): $hasNew\"; \"старый intro остался: $hasOld\" } catch { \"Ошибка: $\\($_.Exception.Message\\)\" })"
+    ]
+  }
+}
