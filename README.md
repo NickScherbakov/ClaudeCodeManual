@@ -1,112 +1,112 @@
 # Claude Code Trainer — Opus 4.8
 
-**Интерактивный курс по продвинутым техникам работы с Claude Code**
+**Interactive course on advanced Claude Code techniques**
 
-> Практический гайд для авторов и разработчиков, изучающих многоагентную оркестрацию в Copilot CLI.
+> A practical guide for developers and technical authors learning multi-agent orchestration in Copilot CLI.
 
-## 🎯 О проекте
+## 🎯 About This Project
 
-Это не приложение — это **учебный материал + примеры кода**. Курс предназначен для изучения:
+This is not an application — it's **teaching material + code examples**. The course covers:
 
-- **Workflow tool** — оркестрация множества агентов для сложных задач
-- **Многоагентные системы** — параллельное выполнение, конвейеры, динамические циклы
-- **Структурированные выходы** — JSON Schema для надёжных результатов
-- **Верификация и проверка** — адверсариальный анализ, loop-until-dry
-- **Управление памятью и бюджетом** — эффективная работа с контекстом
+- **Workflow tool** — orchestrating multiple agents for complex tasks
+- **Multi-agent systems** — parallel execution, pipelines, dynamic loops
+- **Structured outputs** — JSON Schema for reliable results
+- **Verification and validation** — adversarial analysis, loop-until-dry patterns
+- **Memory and budget management** — working efficiently with context
 
-Материал организован вокруг **четырёх узлов проектирования**:
-1. **Goal** (цель) — конечное состояние, к которому мы стремимся
-2. **Decomposition** (разложение) — какие задачи нужны (вход→выход)
-3. **Processes** (процессы) — как задачи связаны во времени
-4. **Resources** (ресурсы) — какие решатели (агенты) нам нужны
+Material is organized around **four design nodes**:
+1. **Goal** (end state) — what we're trying to achieve
+2. **Decomposition** (tasks) — input→output transformations needed
+3. **Processes** (relationships) — how tasks connect in time
+4. **Resources** (solvers) — which agents/tools we need
 
-## 📚 Структура проекта
+## 📚 Project Structure
 
 ```
-├── web/                          # Интерактивный тренер (SPА)
-│   ├── index.html               # Главная страница
-│   ├── app.js                   # Логика маршрутизации и состояния
-│   ├── content.js               # Все главы и справочники (15 глав)
-│   └── styles.css               # Оформление
+├── web/                          # Interactive trainer (SPA)
+│   ├── index.html               # Main page
+│   ├── app.js                   # Routing and state logic
+│   ├── content.js               # All chapters and cheatsheets (15 chapters)
+│   └── styles.css               # Styling
 │
-├── labs/                         # 14 практических лабораторий
-│   ├── 00-setup/                # Настройка окружения
-│   ├── 01-cli-mastery/          # Основы CLI
-│   ├── 02-workflow-fundamentals/# Основы Workflow
-│   ├── 03-pipeline-vs-parallel/ # Конвейеры vs параллелизм
-│   ├── 04-dynamic-workflows/    # Динамические рабочие потоки
+├── labs/                         # 14 hands-on laboratories
+│   ├── 00-setup/                # Environment setup
+│   ├── 01-cli-mastery/          # CLI basics
+│   ├── 02-workflow-fundamentals/# Workflow essentials
+│   ├── 03-pipeline-vs-parallel/ # Pipelines vs parallelism
+│   ├── 04-dynamic-workflows/    # Dynamic workflows
 │   ├── 05-structured-output/    # JSON Schema
-│   ├── 06-adversarial-verify/   # Верификация
-│   ├── 07-advanced-patterns/    # Продвинутые паттерны
-│   ├── 08-hooks-automation/     # Хуки и автоматизация
-│   ├── 09-memory-system/        # Система памяти
-│   ├── 10-skills-mcp/           # Skills и MCP
-│   ├── 11-budget-management/    # Управление бюджетом
-│   ├── 12-worktree-isolation/   # Изолированные рабочие деревья
-│   └── 13-capstone/             # Финальный проект
+│   ├── 06-adversarial-verify/   # Verification techniques
+│   ├── 07-advanced-patterns/    # Advanced patterns
+│   ├── 08-hooks-automation/     # Hooks and automation
+│   ├── 09-memory-system/        # Memory system
+│   ├── 10-skills-mcp/           # Skills and MCP
+│   ├── 11-budget-management/    # Budget management
+│   ├── 12-worktree-isolation/   # Isolated worktrees
+│   └── 13-capstone/             # Final project
 │
-├── solutions/                    # Эталонные решения (выборочно)
+├── solutions/                    # Reference solutions (selective)
 │   ├── 02-workflow-fundamentals.js
 │   ├── 03-pipeline-vs-parallel.js
 │   └── 06-adversarial-verification.js
 │
-├── project/                      # Примеры реальных Workflow'ов
-│   ├── system.js               # Полнофункциональная система
-│   ├── infolimp-audit.js        # Аудит информационных войн
-│   └── trainer-improve.js       # Улучшение тренера
+├── project/                      # Real-world Workflow examples
+│   ├── system.js               # Full-featured system
+│   ├── infolimp-audit.js        # Information warfare audit
+│   └── trainer-improve.js       # Trainer improvement workflow
 │
-├── examples/                     # Дополнительные примеры
-│   └── publisher-manual/        # Пример: публикация мануала
+├── examples/                     # Additional examples
+│   └── publisher-manual/        # Example: publishing a manual
 │
-└── cheatsheets/                 # Справочные материалы
-    ├── workflow-api.md          # API Workflow
-    ├── subagent-types.md        # Типы агентов
-    └── patterns-reference.md    # Паттерны проектирования
+└── cheatsheets/                 # Quick references
+    ├── workflow-api.md          # Workflow API
+    ├── subagent-types.md        # Agent types
+    └── patterns-reference.md    # Design patterns
 ```
 
-## 🚀 Начало работы
+## 🚀 Getting Started
 
-### 1. Интерактивный тренер (веб)
-Откройте сайт: **https://nickscherbakov.github.io/ClaudeCodeManual/**
+### 1. Interactive Web Trainer
+Visit: **https://nickscherbakov.github.io/ClaudeCodeManual/**
 
-Там вы найдёте 15 интерактивных глав с объяснениями, примерами кода и проверками понимания.
+You'll find 15 interactive chapters with explanations, code examples, and comprehension checks.
 
-### 2. Практические лабораторки
-В папке `labs/` — 14 практических заданий с возрастающей сложностью. Каждая:
-- `lab.md` — описание задачи и критерии успеха
-- `starter.js` — заготовка кода (опционально)
+### 2. Hands-on Labs
+In the `labs/` folder — 14 practical exercises with increasing difficulty. Each contains:
+- `lab.md` — task description and success criteria
+- `starter.js` — code template (optional)
 
-**Как работать с лабом:**
+**How to work through a lab:**
 ```bash
-# 1. Прочитайте lab.md
-# 2. Напишите решение в starter.js (или новый файл)
-# 3. Запустите в Copilot:
-Запусти labs/02-workflow-fundamentals/starter.js как workflow +50k
+# 1. Read lab.md
+# 2. Write your solution in starter.js (or create a new file)
+# 3. Run in Copilot:
+Run labs/02-workflow-fundamentals/starter.js as workflow +50k
 ```
 
-### 3. Примеры кода
-В `project/` и `solutions/` — готовые Workflow'ы, которые вы можете:
-- Запустить как-есть
-- Модифицировать под свои нужды
-- Использовать как справочник паттернов
+### 3. Code Examples
+In `project/` and `solutions/` — ready-to-use Workflows you can:
+- Run as-is
+- Modify for your needs
+- Use as a reference for patterns
 
-## 📖 Как использовать .js файлы
+## 📖 Working with .js Files
 
-**Все .js файлы — это Workflow скрипты**, а не Node.js модули. Они работают **только внутри Copilot Workflow tool**.
+**All .js files are Workflow scripts**, not Node.js modules. They work **only inside Copilot Workflow tool**.
 
 ```javascript
-// Пример: project/system.js
+// Example: project/system.js
 export const meta = {
   phases: [
-    { title: 'Анализ', description: 'Изучение кода' },
-    { title: 'Верификация', description: 'Проверка результатов' }
+    { title: 'Analysis', description: 'Code review' },
+    { title: 'Verification', description: 'Validate results' }
   ]
 };
 
 export default async function() {
-  // Это запускается внутри Workflow
+  // Runs inside Workflow
   const results = await agent('claude-opus-4.8', {
-    task: 'Найти уязвимости в коде',
+    task: 'Find security vulnerabilities',
     schema: { /* JSON Schema */ }
   });
   
@@ -114,81 +114,80 @@ export default async function() {
 }
 ```
 
-**Запуск:**
+**To run:**
 ```
-Запусти project/system.js как workflow +100k
+Run project/system.js as workflow +100k
 ```
 
-Флаг `+100k` устанавливает бюджет токенов (необязателен).
+The `+100k` flag sets the token budget (optional).
 
-## 🧠 Ключевые концепции
+## 🧠 Key Concepts
 
 ### Workflow API
-- `agent()` — создать agenta для конкретной задачи
-- `parallel()` — запустить несколько агентов одновременно
-- `pipeline()` — выполнить задачи последовательно
-- `phase()` — отметить этап в UI
-- `loop()` — динамический цикл с условием
+- `agent()` — create an agent for a specific task
+- `parallel()` — run multiple agents simultaneously
+- `pipeline()` — execute tasks sequentially
+- `phase()` — mark a stage in the UI
+- `loop()` — dynamic loop with condition
 
-### Четыре узла проектирования
-1. **Goal** — "Я хочу найти уязвимости в приложении"
-2. **Decomposition** — задачи: парсинг кода → статический анализ → тестирование
-3. **Processes** — парсинг сначала, потом параллельно анализ и тесты
-4. **Resources** — 3 агента (парсер, аналитик, тестер)
+### Four Design Nodes
+1. **Goal** — "I want to find security vulnerabilities in my app"
+2. **Decomposition** — tasks: parse code → static analysis → testing
+3. **Processes** — parse first, then run analysis and tests in parallel
+4. **Resources** — 3 agents (parser, analyst, tester)
 
-### Паттерны
-- **Pipeline** — для последовательных стадий (данные → обработка → верификация)
-- **Parallel** — когда стадии независимы
-- **Loop-until-dry** — повторять анализ пока находятся новые результаты
-- **Adversarial verify** — "диссидент" проверяет результат, ищет ошибки
+### Patterns
+- **Pipeline** — for sequential stages (data → process → verify)
+- **Parallel** — when stages are independent
+- **Loop-until-dry** — repeat analysis until no new findings
+- **Adversarial verify** — a "skeptic" checks results for errors
 
-## 📝 Справочники
+## 📝 Quick References
 
-Быстрый доступ к API и паттернам:
-- [Workflow API](cheatsheets/workflow-api.md) — все функции
-- [Типы агентов](cheatsheets/subagent-types.md) — explore, task, general-purpose, code-review, research
-- [Паттерны](cheatsheets/patterns-reference.md) — готовые решения
+Fast access to API and patterns:
+- [Workflow API](cheatsheets/workflow-api.md) — all functions
+- [Agent Types](cheatsheets/subagent-types.md) — explore, task, general-purpose, code-review, research
+- [Patterns](cheatsheets/patterns-reference.md) — ready-made solutions
 
-## 🎓 Рекомендуемый путь обучения
+## 🎓 Recommended Learning Path
 
-1. **Глава 0** — основы четырёх узлов (веб-тренер)
-2. **Лаб 00** — настройка (проверяем что всё работает)
-3. **Главы 1–3** — CLI, первый агент, параллелизм
-4. **Лабы 02–03** — практика pipeline и parallel
-5. **Главы 4–7** — динамика, схемы, верификация
-6. **Лабы 04–07** — практика продвинутых техник
-7. **Главы 8–12** — хуки, память, skills, бюджет, worktrees
-8. **Лабы 08–13** — интеграция всего вместе, финальный проект
+1. **Chapter 0** — four design nodes basics (web trainer)
+2. **Lab 00** — setup (verify everything works)
+3. **Chapters 1–3** — CLI, first agent, parallelism
+4. **Labs 02–03** — practice pipelines and parallel execution
+5. **Chapters 4–7** — dynamic workflows, schemas, verification
+6. **Labs 04–07** — practice advanced techniques
+7. **Chapters 8–12** — hooks, memory, skills, budget, worktrees
+8. **Labs 08–13** — integrate everything, final project
 
-## 🔧 Технический стек
+## 🔧 Tech Stack
 
-- **Copilot CLI** — основной инструмент (workflow tool)
-- **Vanilla JavaScript** — веб-интерфейс (без фреймворков)
-- **Marked.js** — markdown в HTML
-- **Prism.js** — подсветка синтаксиса кода
-- **JSON Schema** — структурированные выходы
+- **Copilot CLI** — primary tool (workflow system)
+- **Vanilla JavaScript** — web UI (no frameworks)
+- **Marked.js** — markdown to HTML
+- **Prism.js** — syntax highlighting
+- **JSON Schema** — structured outputs
 
-## 📌 Важные замечания
+## 📌 Important Notes
 
-- Файлы `.js` в `project/`, `solutions/`, `labs/` — **это Workflow скрипты**, не Node модули
-- Запускайте их в Claude Code: `Запусти <path>.js как workflow +<бюджет>`
-- `meta.phases` должен точно совпадать с вызовами `phase()` в коде
-- `parallel()` возвращает `null` для ошибок — всегда проверяйте `.filter(Boolean)`
-- Не используйте `Date.now()` или `Math.random()` в Workflow (ломают resume)
+- `.js` files in `project/`, `solutions/`, `labs/` are **Workflow scripts**, not Node modules
+- Run them in Claude Code: `Run <path>.js as workflow +<budget>`
+- `meta.phases` must exactly match `phase()` calls in code
+- `parallel()` returns `null` on error — always `.filter(Boolean)`
+- Don't use `Date.now()` or `Math.random()` in Workflow (breaks resume)
 
-## 🌍 Языки
+## 🌍 Language Versions
 
-- 🇷🇺 **Русский:** [README.md](README.md) (текущий файл)
-- 🇬🇧 **English:** [README_EN.md](README_EN.md)
+- 🇬🇧 **English:** [README.md](README.md) (this file)
+- 🇷🇺 **Русский:** [README_RU.md](README_RU.md)
 
-## 📬 Лицензия
+## 📬 License
 
-CC0 (Public Domain) — используйте свободно в учебных и коммерческих целях.
+CC0 (Public Domain) — free to use for educational and commercial purposes.
 
 ---
 
-**Автор:** Copilot (GitHub)  
-**Язык:** Русский 🇷🇺 & English 🇬🇧  
-**Версия:** 1.0 (Opus 4.8)
+**Author:** Copilot (GitHub)  
+**Version:** 1.0 (Opus 4.8)
 
-Удачи в изучении Claude Code! 🚀
+Happy learning! 🚀
