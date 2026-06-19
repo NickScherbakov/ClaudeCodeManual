@@ -548,9 +548,9 @@ if (highGaps.length > 0) {
     body: `
 # Глава 8: Хуки
 
-Некоторые правила не должны зависеть от того, вспомнит ли их модель. Если файл изменился, запустите проверку. Если команда опасна, заблокируйте её. Если цель не выполнена, продолжайте работу.
+Инструкция зависит от того, вспомнит ли её модель. Хук — нет. Если команда опасна, хук её блокирует до того, как модель вообще принимает решение.
 
-Хук — это правило среды, а не предложение Claude.
+Хук — правило среды, а не совет для Claude.
 
 | Хук | Момент | Применение |
 |-----|--------|------------|
@@ -559,7 +559,46 @@ if (highGaps.length > 0) {
 | PostToolCall | после вызова инструмента | записать лог или запустить проверки |
 | Stop | когда Claude пытается завершить работу | проверить условие завершения |
 
-Используйте хуки для повторяемых защитных правил. Используйте инструкции для суждений и стиля.
+## Пример: три хука в settings.json
+
+\`\`\`json
+{
+  "hooks": {
+    "PreToolCall": [
+      {
+        "matcher": "Bash",
+        "hooks": [{
+          "type": "command",
+          "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '^node '; then echo 'BLOCKED: Workflow-скрипты не запускаются через node'; exit 2; fi"
+        }]
+      }
+    ],
+    "PostToolCall": [
+      {
+        "matcher": "Write",
+        "hooks": [{
+          "type": "command",
+          "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -q 'content.js'; then echo 'НАПОМИНАНИЕ: подними ?v=N в web/index.html'; fi"
+        }]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{
+          "type": "command",
+          "command": "python3 .claude/hooks/check_goal.py"
+        }]
+      }
+    ]
+  }
+}
+\`\`\`
+
+**exit 2** из хука останавливает действие. **exit 0** — разрешает. Stdout хука отображается пользователю.
+
+## Правило выбора
+
+Используйте хуки для **механических и повторяемых** проверок: блокировка опасных команд, напоминания при изменении файлов, проверка условий завершения. Используйте инструкции для суждений и стиля — там нужна гибкость модели.
 `,
     quiz: {
       q: 'Чем хук отличается от инструкции?',
@@ -1580,9 +1619,9 @@ The critic does not replace the final synthesis — it expands the analysis fram
     body: `
 # Chapter 8: Hooks
 
-Some rules should not depend on the model remembering them. If a file changes, run a check. If a command is dangerous, block it. If a goal is not satisfied, keep working.
+An instruction depends on the model remembering it. A hook does not. If a command is dangerous, the hook blocks it before the model makes any decision.
 
-A hook is an environment rule, not a suggestion to Claude.
+A hook is an environment rule, not advice for Claude.
 
 | Hook | Moment | Use |
 |------|--------|-----|
@@ -1591,7 +1630,46 @@ A hook is an environment rule, not a suggestion to Claude.
 | PostToolCall | after a tool call | log or run checks |
 | Stop | when Claude tries to finish | verify a completion condition |
 
-Use hooks for repeatable safeguards. Use instructions for judgment and style.
+## Example: three hooks in settings.json
+
+\`\`\`json
+{
+  "hooks": {
+    "PreToolCall": [
+      {
+        "matcher": "Bash",
+        "hooks": [{
+          "type": "command",
+          "command": "if echo \\"$CLAUDE_TOOL_INPUT\\" | grep -qE '^node '; then echo 'BLOCKED: Workflow scripts do not run via node'; exit 2; fi"
+        }]
+      }
+    ],
+    "PostToolCall": [
+      {
+        "matcher": "Write",
+        "hooks": [{
+          "type": "command",
+          "command": "if echo \\"$CLAUDE_TOOL_INPUT\\" | grep -q 'content.js'; then echo 'REMINDER: bump ?v=N in web/index.html'; fi"
+        }]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{
+          "type": "command",
+          "command": "python3 .claude/hooks/check_goal.py"
+        }]
+      }
+    ]
+  }
+}
+\`\`\`
+
+**exit 2** from a hook stops the action. **exit 0** — allows it. Stdout is shown to the user.
+
+## When to choose hooks vs. instructions
+
+Use hooks for **mechanical and repeatable** checks: blocking dangerous commands, reminders on file change, verifying completion conditions. Use instructions for judgment and style — that is where the model's flexibility matters.
 `,
     quiz: {
       q: 'How is a hook different from an instruction?',
