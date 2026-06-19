@@ -924,19 +924,23 @@ const CHEATSHEETS = [
     body: `
 **meta**: литеральные метаданные workflow.
 
-    export const meta = {
-      name: 'my-system',
-      description: 'one-line purpose',
-      phases: [{ title: 'Find' }, { title: 'Verify' }]
-    }
+\`\`\`javascript
+export const meta = {
+  name: 'my-system',
+  description: 'one-line purpose',
+  phases: [{ title: 'Find' }, { title: 'Verify' }]
+}
+\`\`\`
 
 **Базовые функции**
 
-    agent(prompt, { label, phase, schema, model, isolation, agentType })
-    parallel([() => agent(...), () => agent(...)])
-    pipeline(items, stage1, stage2, ...)
-    phase('title')
-    log('message')
+\`\`\`javascript
+agent(prompt, { label, phase, schema, model, isolation, agentType })
+parallel([() => agent(...), () => agent(...)])
+pipeline(items, stage1, stage2, ...)
+phase('title')
+log('message')
+\`\`\`
 `,
   },
   {
@@ -2186,19 +2190,23 @@ const CHEATSHEETS_EN = [
     body: `
 **meta**: literal metadata for the workflow.
 
-    export const meta = {
-      name: 'my-system',
-      description: 'one-line purpose',
-      phases: [{ title: 'Find' }, { title: 'Verify' }]
-    }
+\`\`\`javascript
+export const meta = {
+  name: 'my-system',
+  description: 'one-line purpose',
+  phases: [{ title: 'Find' }, { title: 'Verify' }]
+}
+\`\`\`
 
 **Core functions**
 
-    agent(prompt, { label, phase, schema, model, isolation, agentType })
-    parallel([() => agent(...), () => agent(...)])
-    pipeline(items, stage1, stage2, ...)
-    phase('title')
-    log('message')
+\`\`\`javascript
+agent(prompt, { label, phase, schema, model, isolation, agentType })
+parallel([() => agent(...), () => agent(...)])
+pipeline(items, stage1, stage2, ...)
+phase('title')
+log('message')
+\`\`\`
 `,
   },
   {
