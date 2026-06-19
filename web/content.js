@@ -635,6 +635,24 @@ if (highGaps.length > 0) {
 Пример:
 
     Запомни: этот проект строит workflow для анализа договорных рисков. Финальный артефакт — проверенный отчёт о рисках, а не общий пересказ.
+
+Claude сохранит этот факт в файл под `~/.claude/projects/.../memory/`. Структура файла:
+
+\`\`\`markdown
+---
+name: project-contract-pipeline
+description: pipeline юридических договоров — JSON-отчёт, не Markdown
+metadata:
+  type: project
+---
+
+Этот проект строит workflow для анализа юридических договоров.
+Финальный артефакт — верифицированный JSON с рисками.
+**Why:** клиент ожидает структурированные данные, а не пересказ.
+**How to apply:** не предлагать Markdown-резюме как финал работы.
+\`\`\`
+
+В следующей сессии Claude прочитает этот файл и сразу знает контекст — без переобъяснений. Память — это постоянные факты; история чата — временный буфер.
 `,
     quiz: {
       q: 'Что относится к reference-памяти?',
@@ -666,6 +684,38 @@ ToolSearch сохраняет активный контекст небольши
 ## Практическое правило
 
 Используйте skills для устойчивых методов. Используйте MCP-инструменты для внешних действий и данных. Загружайте инструменты только тогда, когда они действительно нужны текущей задаче.
+
+## Skill в workflow
+
+Skill хранит *как* делать. Вызов агента говорит *что* делать прямо сейчас.
+
+\`\`\`javascript
+// Обычный агент — промпт содержит все инструкции:
+const review = await agent(
+  'Проверь текст: соблюдены ли правила русского языка и стиль курса?',
+  { label: 'review' }
+)
+
+// Через skill — инструкции хранятся в .claude/skills/course-reviewer.md:
+const review = await agent('Проверь этот раздел', {
+  agentType: 'course-reviewer',  // Claude загружает skill-инструкцию
+  label: 'review'
+})
+\`\`\`
+
+## MCP в workflow
+
+MCP-сервер подключает внешнюю систему (Gmail, Jira, браузер). Агент внутри workflow использует его автоматически, если сервер подключён:
+
+\`\`\`javascript
+// Агент использует Gmail MCP для отправки письма (если сервер подключён)
+const result = await agent(
+  'Отправь клиенту краткий отчёт по этим рискам: ' + JSON.stringify(topRisks),
+  { label: 'send-report' }
+)
+\`\`\`
+
+ToolSearch внутри агента автоматически загрузит нужную схему инструмента — вам не нужно заранее перечислять все MCP-инструменты.
 `,
     quiz: {
       q: 'Какую проблему решает ToolSearch?',
@@ -766,6 +816,27 @@ const votes = await parallel(
 | работа последовательная | обычно не нужна |
 
 Изоляция требует времени и места на диске, поэтому используйте её тогда, когда она защищает реальные параллельные изменения.
+
+## Как включить изоляцию
+
+\`\`\`javascript
+// БЕЗ изоляции — агенты могут одновременно менять один файл:
+const results = await parallel(
+  FILES.map(f => () => agent(\`Добавь JSDoc к \${f}\`, { label: \`doc:\${f}\` }))
+)
+
+// С ИЗОЛЯЦИЕЙ — каждый агент работает в отдельной ветке:
+const results = await parallel(
+  FILES.map(f => () => agent(\`Добавь JSDoc к \${f}\`, {
+    isolation: 'worktree',  // отдельный checkout + ветка
+    label: \`doc:\${f}\`
+  }))
+)
+// Worktree удаляется автоматически, если агент ничего не изменил.
+// Успешные ветки нужно слить вручную после завершения.
+\`\`\`
+
+**Правило стоимости**: worktree стоит ~200–500мс настройки и дисковое пространство. Не используйте его для агентов, которые только читают файлы — читать параллельно безопасно без изоляции.
 `,
     quiz: {
       q: 'Когда worktree-изоляция не нужна?',
@@ -1705,6 +1776,24 @@ Do not store the codebase in memory. The codebase is already in files. Store the
 Example:
 
     Remember: this project builds workflows for contract-risk analysis. The final artifact is a verified risk report, not a general summary.
+
+Claude saves that fact to a file under `~/.claude/projects/.../memory/`. File format:
+
+\`\`\`markdown
+---
+name: project-contract-pipeline
+description: contract-analysis pipeline — JSON report, not Markdown
+metadata:
+  type: project
+---
+
+This project builds a workflow for analyzing legal contracts.
+The final artifact is a verified JSON risk report.
+**Why:** the client expects structured data, not a prose summary.
+**How to apply:** do not propose a Markdown summary as the final deliverable.
+\`\`\`
+
+In the next session Claude reads this file and already knows the context — no re-explanation needed. Memory holds durable facts; chat history is a temporary buffer.
 `,
     quiz: {
       q: 'What belongs in reference memory?',
@@ -1735,6 +1824,38 @@ ToolSearch keeps the active context small. Claude does not need every tool loade
 ## Practical rule
 
 Use skills for stable methods. Use MCP tools for external actions and data. Load tools only when the current task actually needs them.
+
+## Skill in a workflow
+
+A skill stores *how* to do something. The agent call says *what* to do right now.
+
+\`\`\`javascript
+// Plain agent — all instructions live in the prompt:
+const review = await agent(
+  'Check this text: does it follow the course style and Russian grammar rules?',
+  { label: 'review' }
+)
+
+// Via skill — instructions live in .claude/skills/course-reviewer.md:
+const review = await agent('Review this section', {
+  agentType: 'course-reviewer',  // Claude loads the skill instruction
+  label: 'review'
+})
+\`\`\`
+
+## MCP in a workflow
+
+An MCP server connects an external system (Gmail, Jira, browser). An agent inside the workflow uses it automatically when the server is connected:
+
+\`\`\`javascript
+// Agent uses Gmail MCP to send the client a report (if the server is connected)
+const result = await agent(
+  'Send the client a brief report on these risks: ' + JSON.stringify(topRisks),
+  { label: 'send-report' }
+)
+\`\`\`
+
+ToolSearch inside the agent automatically loads the needed tool schema — you do not need to enumerate all MCP tools upfront.
 `,
     quiz: {
       q: 'What problem does ToolSearch solve?',
@@ -1833,6 +1954,27 @@ Use isolation when:
 | work is sequential | usually not needed |
 
 Isolation costs time and disk space, so use it when it protects real parallel edits.
+
+## Enabling isolation
+
+\`\`\`javascript
+// WITHOUT isolation — agents may edit the same file simultaneously:
+const results = await parallel(
+  FILES.map(f => () => agent(\`Add JSDoc to \${f}\`, { label: \`doc:\${f}\` }))
+)
+
+// WITH isolation — each agent works in its own branch:
+const results = await parallel(
+  FILES.map(f => () => agent(\`Add JSDoc to \${f}\`, {
+    isolation: 'worktree',  // separate checkout + branch
+    label: \`doc:\${f}\`
+  }))
+)
+// Worktree is removed automatically if the agent changed nothing.
+// Successful branches must be merged manually afterward.
+\`\`\`
+
+**Cost rule**: a worktree takes ~200–500 ms to set up plus disk space. Do not use it for agents that only read files — parallel reads are safe without isolation.
 `,
     quiz: {
       q: 'When is worktree isolation unnecessary?',
