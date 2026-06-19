@@ -492,9 +492,9 @@ function mountParallelAnimator(host) {
         const elapsed = now - start;
         const pct = Math.min(100, elapsed / duration * 100);
         bar.style.width = pct + '%';
-        time.textContent = (elapsed * 3 / 1000).toFixed(1) + 'с';
+        time.textContent = (elapsed * 3 / 1000).toFixed(1) + (isRu ? 'с' : 's');
         if (pct < 100) requestAnimationFrame(tick);
-        else { bar.textContent = '✓ ' + (dur/1000) + 'с'; resolve(); }
+        else { bar.textContent = '✓ ' + (dur/1000) + (isRu ? 'с' : 's'); resolve(); }
       }
       requestAnimationFrame(tick);
     });
