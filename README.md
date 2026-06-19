@@ -1,211 +1,94 @@
-# Claude Code Trainer — Opus 4.8
+# Claude Code: Advanced Techniques
 
-**Interactive course on advanced Claude Code techniques**
+**The first comprehensive Russian-language course on multi-agent orchestration with Claude Code (Opus 4.8)**
 
-> A practical guide for developers and technical authors learning multi-agent orchestration in Copilot CLI.
+[![Live Trainer](https://img.shields.io/badge/Interactive_Trainer-online-brightgreen)](https://nickscherbakov.github.io/ClaudeCodeManual/)
+[![License: CC0](https://img.shields.io/badge/License-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![Stars](https://img.shields.io/github/stars/NickScherbakov/ClaudeCodeManual?style=social)](https://github.com/NickScherbakov/ClaudeCodeManual)
 
-## 🎯 About This Project
+> **Note:** Content is in Russian. See [README_RU.md](README_RU.md) for the full guide in Russian.
 
-This is not an application — it's **teaching material + code examples**. The course covers:
+---
 
-- **Workflow tool** — orchestrating multiple agents for complex tasks
-- **Multi-agent systems** — parallel execution, pipelines, dynamic loops
-- **Structured outputs** — JSON Schema for reliable results
-- **Verification and validation** — adversarial analysis, loop-until-dry patterns
-- **Memory and budget management** — working efficiently with context
+## What This Is
 
-Material is organized around **four design nodes**:
-1. **Goal** (end state) — what we're trying to achieve
-2. **Decomposition** (tasks) — input→output transformations needed
-3. **Processes** (relationships) — how tasks connect in time
-4. **Resources** (solvers) — which agents/tools we need
+A hands-on training course for Claude Code's **Workflow tool** — the built-in multi-agent orchestrator that lets you:
 
-## 📚 Project Structure
+- run 10+ agents in parallel across large codebases
+- verify results adversarially with skeptic agents
+- resume from the exact point of failure without re-running completed work
+- manage token budgets and scale depth to available resources
 
-```
-├── web/                          # Interactive trainer (SPA)
-│   ├── index.html               # Main page
-│   ├── app.js                   # Routing and state logic
-│   ├── content.js               # All chapters and cheatsheets (15 chapters)
-│   └── styles.css               # Styling
-│
-├── labs/                         # 14 hands-on laboratories
-│   ├── 00-setup/                # Environment setup
-│   ├── 01-cli-mastery/          # CLI basics
-│   ├── 02-workflow-fundamentals/# Workflow essentials
-│   ├── 03-pipeline-vs-parallel/ # Pipelines vs parallelism
-│   ├── 04-dynamic-workflows/    # Dynamic workflows
-│   ├── 05-structured-output/    # JSON Schema
-│   ├── 06-adversarial-verify/   # Verification techniques
-│   ├── 07-advanced-patterns/    # Advanced patterns
-│   ├── 08-hooks-automation/     # Hooks and automation
-│   ├── 09-memory-system/        # Memory system
-│   ├── 10-skills-mcp/           # Skills and MCP
-│   ├── 11-budget-management/    # Budget management
-│   ├── 12-worktree-isolation/   # Isolated worktrees
-│   └── 13-capstone/             # Final project
-│
-├── solutions/                    # Reference solutions (selective)
-│   ├── 02-workflow-fundamentals.js
-│   ├── 03-pipeline-vs-parallel.js
-│   └── 06-adversarial-verification.js
-│
-├── project/                      # Real-world Workflow examples
-│   ├── system.js               # Full-featured system
-│   ├── infolimp-audit.js        # Information warfare audit
-│   └── trainer-improve.js       # Trainer improvement workflow
-│
-├── examples/                     # Additional examples
-│   └── publisher-manual/        # Example: publishing a manual
-│
-└── cheatsheets/                 # Quick references
-    ├── workflow-api.md          # Workflow API
-    ├── subagent-types.md        # Agent types
-    └── patterns-reference.md    # Design patterns
-```
+The course is organized around **designing systems from the goal backward** — final state first, resources last. An interactive wizard in Chapter 0 walks you through the four design nodes and generates a starter workflow for your specific problem.
 
-## 🚀 Getting Started
+---
 
-### 1. Interactive Web Trainer
-Visit: **https://nickscherbakov.github.io/ClaudeCodeManual/**
+## **[→ Open the Interactive Trainer](https://nickscherbakov.github.io/ClaudeCodeManual/)**
 
-You'll find 15 interactive chapters with explanations, code examples, and comprehension checks.
+15 chapters + 14 hands-on labs. No build step — opens directly in the browser.
 
-### 2. Hands-on Labs
-In the `labs/` folder — 14 practical exercises with increasing difficulty. Each contains:
-- `lab.md` — task description and success criteria
-- `starter.js` — code template (optional)
+---
 
-**How to work through a lab:**
+## Quick Start
+
 ```bash
-# 1. Read lab.md
-# 2. Write your solution in starter.js (or create a new file)
-# 3. Run in Copilot:
-Run labs/02-workflow-fundamentals/starter.js as workflow +50k
+git clone https://github.com/NickScherbakov/ClaudeCodeManual.git
+cd ClaudeCodeManual
 ```
 
-### 3. Code Examples
-In `project/` and `solutions/` — ready-to-use Workflows you can:
-- Run as-is
-- Modify for your needs
-- Use as a reference for patterns
-
-## 📖 Working with .js Files
-
-**All .js files are Workflow scripts**, not Node.js modules. They work **only inside Copilot Workflow tool**.
-
-```javascript
-// Example: project/system.js
-export const meta = {
-  phases: [
-    { title: 'Analysis', description: 'Code review' },
-    { title: 'Verification', description: 'Validate results' }
-  ]
-};
-
-export default async function() {
-  // Runs inside Workflow
-  const results = await agent('claude-opus-4.8', {
-    task: 'Find security vulnerabilities',
-    schema: { /* JSON Schema */ }
-  });
-  
-  return results;
-}
-```
-
-**To run:**
+In Claude Code:
 ```
 Run project/system.js as workflow +100k
 ```
 
-The `+100k` flag sets the token budget (optional).
-
-## 🧠 Key Concepts
-
-### Workflow API
-- `agent()` — create an agent for a specific task
-- `parallel()` — run multiple agents simultaneously
-- `pipeline()` — execute tasks sequentially
-- `phase()` — mark a stage in the UI
-- `loop()` — dynamic loop with condition
-
-### Four Design Nodes
-1. **Goal** — "I want to find security vulnerabilities in my app"
-2. **Decomposition** — tasks: parse code → static analysis → testing
-3. **Processes** — parse first, then run analysis and tests in parallel
-4. **Resources** — 3 agents (parser, analyst, tester)
-
-### Patterns
-- **Pipeline** — for sequential stages (data → process → verify)
-- **Parallel** — when stages are independent
-- **Loop-until-dry** — repeat analysis until no new findings
-- **Adversarial verify** — a "skeptic" checks results for errors
-
-## 📝 Quick References
-
-Fast access to API and patterns:
-- [Workflow API](cheatsheets/workflow-api.md) — all functions
-- [Agent Types](cheatsheets/subagent-types.md) — explore, task, general-purpose, code-review, research
-- [Patterns](cheatsheets/patterns-reference.md) — ready-made solutions
-
-## 🎓 Recommended Learning Path
-
-1. **Chapter 0** — four design nodes basics (web trainer)
-2. **Lab 00** — setup (verify everything works)
-3. **Chapters 1–3** — CLI, first agent, parallelism
-4. **Labs 02–03** — practice pipelines and parallel execution
-5. **Chapters 4–7** — dynamic workflows, schemas, verification
-6. **Labs 04–07** — practice advanced techniques
-7. **Chapters 8–12** — hooks, memory, skills, budget, worktrees
-8. **Labs 08–13** — integrate everything, final project
-
-## 🔧 Tech Stack
-
-- **Copilot CLI** — primary tool (workflow system)
-- **Vanilla JavaScript** — web UI (no frameworks)
-- **Marked.js** — markdown to HTML
-- **Prism.js** — syntax highlighting
-- **JSON Schema** — structured outputs
-
-## 📌 Important Notes
-
-- `.js` files in `project/`, `solutions/`, `labs/` are **Workflow scripts**, not Node modules
-- Run them in Claude Code: `Run <path>.js as workflow +<budget>`
-- `meta.phases` must exactly match `phase()` calls in code
-- `parallel()` returns `null` on error — always `.filter(Boolean)`
-- Don't use `Date.now()` or `Math.random()` in Workflow (breaks resume)
-
-## 🌍 Language Versions
-
-- 🇬🇧 **English:** [README.md](README.md) (this file)
-- 🇷🇺 **Русский:** [README_RU.md](README_RU.md)
-
-## 🤝 About This Collaboration
-
-This repository is **created together by a passionate developer and Copilot AI** to share advanced Claude Code techniques with the global developer community.
-
-**Our Mission:** Break down knowledge barriers and help developers worldwide learn sophisticated multi-agent orchestration techniques. By making this material freely available in multiple languages (English, Russian), we believe everyone—regardless of background or geography—can build powerful AI-driven workflows.
-
-**How We Work Together:**
-- 💡 Human expertise: Project vision, content direction, real-world use cases
-- 🤖 Copilot assistance: Code implementation, documentation, technical execution
-- 🌐 Shared goal: Empower global developer community
-
-This is how humans and AI can collaborate to serve the greater good. We hope this project inspires others to think bigger and build better tools for everyone.
+Or open `web/index.html` in your browser for the interactive trainer.
 
 ---
 
-**Together, we're building the future.** 🚀
+## What You'll Learn
 
-## 📬 License
-
-CC0 (Public Domain) — free to use for educational and commercial purposes.
+| Pattern | When to use |
+|---------|-------------|
+| `pipeline()` | Multi-stage analysis where each stage builds on the previous |
+| `parallel()` barrier | Only when stage N genuinely needs ALL of stage N-1 |
+| Loop-until-dry | Discovery tasks where you don't know how many findings exist |
+| Adversarial verify | Independent skeptics that default to "refuted" — majority vote to survive |
+| Budget-aware loops | Scale depth to the user's token budget directive |
+| Schema-forced output | JSON Schema on `agent()` forces structured output with auto-retry |
 
 ---
 
-**Created by:** Developer + Copilot (GitHub)  
-**Version:** 1.0 (Opus 4.8)  
-**Spirit:** _For the global developer community_ 🌍❤️
+## Repository Structure
 
-Happy learning! 🚀
+```
+web/            # Interactive SPA trainer (15 chapters, no build needed)
+labs/           # 14 hands-on labs (00-setup → 13-capstone)
+solutions/      # Reference solutions for labs 02, 03, 06
+project/        # Real-world workflow examples (system audit, publisher manual)
+cheatsheets/    # Quick-reference markdown (Workflow API, patterns, agent types)
+target/         # Intentionally buggy file used as analysis subject in labs
+```
+
+---
+
+## Key Rules for Workflow Scripts
+
+All `.js` files under `project/`, `labs/`, `solutions/` are **Workflow tool scripts**, not Node.js modules. Run only inside Claude Code — never with `node`.
+
+- `meta` must be a pure literal (no variables or function calls)
+- `parallel()` returns `null` on failure — always `.filter(Boolean)`
+- `pipeline()` is the default; use a `parallel()` barrier only when you need ALL prior results at once
+- `Date.now()`, `Math.random()`, argless `new Date()` are unavailable (they break workflow resume)
+- Budget loops must guard on `budget.total` — `remaining()` is `Infinity` when no budget is set
+
+---
+
+## Contributing
+
+Found an error? Want to add a chapter, lab, or example? PRs welcome.
+
+**[Discussions](https://github.com/NickScherbakov/ClaudeCodeManual/discussions)** · **[Issues](https://github.com/NickScherbakov/ClaudeCodeManual/issues)**
+
+---
+
+**License:** CC0 — use freely, including commercially.

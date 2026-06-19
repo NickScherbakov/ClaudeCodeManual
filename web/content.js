@@ -287,6 +287,48 @@ parallel() возвращает null для веток, завершившихс
 ## Правило
 
 Используйте seen set для дедупликации. Этот набор помнит кандидатов даже тогда, когда последующая проверка их отклоняет.
+
+## Пример кода
+
+\`\`\`javascript
+const seen = new Set()
+const risks = []
+let dry = 0
+
+while (dry < 2) {
+  const result = await agent('Найди новые риски в договоре', {
+    schema: {
+      type: 'object',
+      required: ['items'],
+      properties: {
+        items: {
+          type: 'array',
+          items: { type: 'object', required: ['id', 'description'],
+            properties: { id: { type: 'string' }, description: { type: 'string' } } }
+        }
+      }
+    }
+  })
+
+  // Дедупликация через seen — НЕ через массив принятых рисков.
+  // Иначе отклонённые кандидаты будут возвращаться вечно.
+  const fresh = result.items.filter(r => !seen.has(r.id))
+
+  if (!fresh.length) {
+    dry++      // ещё один сухой раунд
+    continue
+  }
+
+  dry = 0                              // нашли новое — сбрасываем счётчик
+  fresh.forEach(r => seen.add(r.id))  // запомнили кандидата
+  risks.push(...fresh)                 // добавили только новые
+}
+
+log(\`Найдено \${risks.length} рисков за \${seen.size} кандидатов\`)
+\`\`\`
+
+Обратите внимание: `seen` хранит **всех кандидатов** — и принятых, и отклонённых верификацией.
+Если хранить только принятых, отклонённые находки будут появляться снова в каждом раунде.
 `,
     quiz: {
       q: 'Почему loop-until-dry должен дедуплицировать через seen set?',
@@ -507,15 +549,48 @@ ToolSearch сохраняет активный контекст небольши
 
 Начинайте с малого для быстрого прохода. Увеличивайте бюджет для более глубокого поиска, большего числа проверяющих и более сильных проверок полноты.
 
-    Run workflow +50k    быстрый проход
-    Run workflow +500k   более глубокий аудит
-    Run workflow         без явного бюджета
+    Запусти project/system.js как workflow +50k     быстрый проход
+    Запусти project/system.js как workflow +500k    глубокий аудит
+    Запусти project/system.js как workflow           без бюджета (budget.total = null)
 
-Внутри workflow проверяйте, существует ли бюджет, прежде чем использовать оставшиеся токены в цикле. Без явного бюджета remaining() может вести себя как бесконечность.
+## Паттерн: budget-aware loop
+
+Самая частая ошибка — цикл, который не проверяет наличие бюджета:
+
+\`\`\`javascript
+// ❌ Неправильно: при запуске без +Nk budget.remaining() = Infinity
+while (budget.remaining() > 50_000) {
+  // ... цикл никогда не остановится
+}
+
+// ✅ Правильно: сначала проверяем, что бюджет вообще задан
+while (budget.total && budget.remaining() > 50_000) {
+  const batch = await agent('Найди ещё уязвимости', { schema: FINDINGS })
+  findings.push(...batch.items)
+  log(\`\${findings.length} найдено, осталось ~\${Math.round(budget.remaining() / 1000)}k токенов\`)
+}
+\`\`\`
+
+Без `budget.total &&` цикл при отсутствии бюджета превращается в бесконечный.
+
+## Масштабирование флота агентов
+
+\`\`\`javascript
+// Больше токенов → больше агентов-верификаторов
+const VERIFIERS = budget.total
+  ? Math.min(5, Math.floor(budget.total / 100_000))
+  : 2  // разумный дефолт без бюджета
+
+const votes = await parallel(
+  Array.from({ length: VERIFIERS }, () => () =>
+    agent('Попробуй опровергнуть находку', { schema: VERDICT })
+  )
+)
+\`\`\`
 
 ## Правило проектирования
 
-Бюджет должен менять глубину, а не определение успеха. Идеальный результат остаётся тем же; workflow решает, сколько доказательств он может собрать перед отчётом.
+Бюджет должен менять **глубину**, а не определение успеха. Идеальный результат остаётся тем же; workflow решает, сколько доказательств он может собрать перед отчётом.
 `,
     quiz: {
       q: 'Что обычно должен менять больший бюджет?',
@@ -1146,6 +1221,48 @@ Track everything ever seen, not only accepted results. Otherwise a rejected find
 ## Rule
 
 Use a seen set for deduplication. The set remembers candidates even if later verification rejects them.
+
+## Code example
+
+\`\`\`javascript
+const seen = new Set()
+const risks = []
+let dry = 0
+
+while (dry < 2) {
+  const result = await agent('Find new risks in the contract', {
+    schema: {
+      type: 'object',
+      required: ['items'],
+      properties: {
+        items: {
+          type: 'array',
+          items: { type: 'object', required: ['id', 'description'],
+            properties: { id: { type: 'string' }, description: { type: 'string' } } }
+        }
+      }
+    }
+  })
+
+  // Deduplicate against seen — NOT against accepted risks.
+  // Otherwise rejected candidates will reappear every round.
+  const fresh = result.items.filter(r => !seen.has(r.id))
+
+  if (!fresh.length) {
+    dry++       // one more dry round
+    continue
+  }
+
+  dry = 0                               // found something new — reset counter
+  fresh.forEach(r => seen.add(r.id))   // remember the candidate
+  risks.push(...fresh)                  // add only genuinely new items
+}
+
+log(\`Found \${risks.length} risks from \${seen.size} candidates\`)
+\`\`\`
+
+Note: \`seen\` stores **all candidates** — accepted and rejected alike.
+If you only store accepted findings, rejected ones reappear in every round.
 `,
     quiz: {
       q: 'Why should loop-until-dry deduplicate against a seen set?',
@@ -1359,15 +1476,48 @@ A five-document task and a five-hundred-document task should not run the same wa
 
 Start small for a quick pass. Increase budget for deeper search, more reviewers, and stronger completeness checks.
 
-    Run workflow +50k    quick pass
-    Run workflow +500k   deeper audit
-    Run workflow         no explicit budget
+    Run project/system.js as workflow +50k    quick pass
+    Run project/system.js as workflow +500k   deep audit
+    Run project/system.js as workflow          no budget (budget.total = null)
 
-Inside the workflow, check whether a budget exists before using remaining tokens in a loop. Without an explicit budget, remaining() can behave like infinity.
+## Pattern: budget-aware loop
+
+The most common mistake — a loop that doesn't check whether a budget was set:
+
+\`\`\`javascript
+// ❌ Wrong: without +Nk, budget.remaining() === Infinity
+while (budget.remaining() > 50_000) {
+  // ... this loop never stops
+}
+
+// ✅ Correct: guard on budget.total first
+while (budget.total && budget.remaining() > 50_000) {
+  const batch = await agent('Find more vulnerabilities', { schema: FINDINGS })
+  findings.push(...batch.items)
+  log(\`\${findings.length} found, ~\${Math.round(budget.remaining() / 1000)}k tokens remaining\`)
+}
+\`\`\`
+
+Without \`budget.total &&\`, the loop runs forever when no budget is set.
+
+## Scaling agent fleet size
+
+\`\`\`javascript
+// More tokens → more verifier agents
+const VERIFIERS = budget.total
+  ? Math.min(5, Math.floor(budget.total / 100_000))
+  : 2  // sensible default when no budget is set
+
+const votes = await parallel(
+  Array.from({ length: VERIFIERS }, () => () =>
+    agent('Try to refute the finding', { schema: VERDICT })
+  )
+)
+\`\`\`
 
 ## Design rule
 
-Budget should change depth, not the definition of success. The ideal outcome stays the same; the workflow decides how much evidence it can gather before reporting.
+Budget should change **depth**, not the definition of success. The ideal outcome stays the same; the workflow decides how much evidence it can gather before reporting.
 `,
     quiz: {
       q: 'What should a larger budget usually change?',
