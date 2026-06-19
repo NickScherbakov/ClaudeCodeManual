@@ -147,22 +147,27 @@ Claude — семейство LLM от Anthropic. Claude Code — рабочая
 
 ## Минимальный workflow
 
-    export const meta = {
-      name: 'first-workflow',
-      description: 'Read input and produce a short report',
-      phases: [
-        { title: 'Read' },
-        { title: 'Synthesize' }
-      ]
-    }
+\`\`\`javascript
+export const meta = {
+  name: 'first-workflow',
+  description: 'Читает входные данные и создаёт краткий отчёт',
+  phases: [
+    { title: 'Read' },
+    { title: 'Synthesize' }
+  ]
+}
 
-    phase('Read')
-    const notes = await agent('Read the project notes and list the open issues.')
+phase('Read')
+const notes = await agent('Прочитай заметки проекта и перечисли открытые вопросы.',
+  { label: 'reader' })
 
-    phase('Synthesize')
-    const report = await agent('Turn these issues into a short action report: ' + notes)
+phase('Synthesize')
+const report = await agent(
+  'Преобрази эти вопросы в краткий план действий:\n' + notes,
+  { label: 'synthesizer' })
 
-    return { notes, report }
+return { notes, report }
+\`\`\`
 
 ## Почему это важно
 
@@ -195,19 +200,22 @@ Claude — семейство LLM от Anthropic. Claude Code — рабочая
 
 ## Паттерн
 
-    const ANGLES = [
-      { key: 'legal', prompt: 'Review for legal risk' },
-      { key: 'finance', prompt: 'Review for financial exposure' },
-      { key: 'ops', prompt: 'Review for operational follow-up' }
-    ]
+\`\`\`javascript
+const ANGLES = [
+  { key: 'legal',   prompt: 'Найди юридические риски' },
+  { key: 'finance', prompt: 'Найди финансовые риски' },
+  { key: 'ops',     prompt: 'Найди операционные риски' },
+]
 
-    const results = await parallel(
-      ANGLES.map(angle => () => agent(angle.prompt + ': ' + input))
-    )
+const results = await parallel(
+  ANGLES.map(angle => () =>
+    agent(angle.prompt + ': ' + input, { label: angle.key })
+  )
+)
 
-    const valid = results.filter(Boolean)
-
-parallel() возвращает null для веток, завершившихся ошибкой, поэтому перед использованием отфильтруйте результаты.
+// parallel() возвращает null для веток с ошибкой
+const valid = results.filter(Boolean)
+\`\`\`
 
 ## Когда не использовать
 
@@ -252,6 +260,25 @@ parallel() возвращает null для веток, завершившихс
 Используйте parallel() как барьер, когда следующему шагу нужны все предыдущие результаты сразу: дедупликация, общий рейтинг, ранний выход или сравнение находок между собой.
 
 Используйте pipeline(), когда каждый элемент можно провести через несколько стадий независимо.
+
+## С барьером и без него
+
+\`\`\`javascript
+// С барьером (parallel → ждём всех → parallel):
+// время = сумма самых медленных из каждой стадии
+const explained = await parallel(CONCEPTS.map(c => () => agent('Объясни: ' + c)))
+const simplified = await parallel(explained.filter(Boolean).map(e => () => agent('Упрости: ' + e)))
+
+// Без барьера (pipeline): каждый концепт идёт вперёд, как только готов
+// время = самая медленная одиночная цепочка
+const results = await pipeline(
+  CONCEPTS,
+  concept => agent('Объясни: ' + concept, { label: 'explain' }),
+  (explanation, concept) => agent('Упрости: ' + explanation, { label: 'simplify' })
+)
+\`\`\`
+
+Барьер нужен только если упрощение должно сравнить **все** объяснения между собой перед ответом.
 `,
     quiz: {
       q: 'Когда оправдан параллельный барьер между стадиями?',
@@ -1296,22 +1323,27 @@ A workflow step is:
 
 ## Minimal workflow
 
-    export const meta = {
-      name: 'first-workflow',
-      description: 'Read input and produce a short report',
-      phases: [
-        { title: 'Read' },
-        { title: 'Synthesize' }
-      ]
-    }
+\`\`\`javascript
+export const meta = {
+  name: 'first-workflow',
+  description: 'Read input and produce a short report',
+  phases: [
+    { title: 'Read' },
+    { title: 'Synthesize' }
+  ]
+}
 
-    phase('Read')
-    const notes = await agent('Read the project notes and list the open issues.')
+phase('Read')
+const notes = await agent('Read the project notes and list the open issues.',
+  { label: 'reader' })
 
-    phase('Synthesize')
-    const report = await agent('Turn these issues into a short action report: ' + notes)
+phase('Synthesize')
+const report = await agent(
+  'Turn these issues into a short action report:\n' + notes,
+  { label: 'synthesizer' })
 
-    return { notes, report }
+return { notes, report }
+\`\`\`
 
 ## Why this matters
 
@@ -1343,19 +1375,22 @@ If the viewpoints do not depend on each other, run them in parallel.
 
 ## Pattern
 
-    const ANGLES = [
-      { key: 'legal', prompt: 'Review for legal risk' },
-      { key: 'finance', prompt: 'Review for financial exposure' },
-      { key: 'ops', prompt: 'Review for operational follow-up' }
-    ]
+\`\`\`javascript
+const ANGLES = [
+  { key: 'legal',   prompt: 'Review for legal risk' },
+  { key: 'finance', prompt: 'Review for financial exposure' },
+  { key: 'ops',     prompt: 'Review for operational follow-up' },
+]
 
-    const results = await parallel(
-      ANGLES.map(angle => () => agent(angle.prompt + ': ' + input))
-    )
+const results = await parallel(
+  ANGLES.map(angle => () =>
+    agent(angle.prompt + ': ' + input, { label: angle.key })
+  )
+)
 
-    const valid = results.filter(Boolean)
-
-parallel() returns null for failed branches, so filter the results before using them.
+// parallel() returns null for failed branches
+const valid = results.filter(Boolean)
+\`\`\`
 
 ## When not to use it
 
@@ -1399,6 +1434,25 @@ Each item moves forward as soon as its previous stage finishes.
 Use parallel() as a barrier when the next step needs all previous results at once: deduplication, global ranking, early exit, or comparison across findings.
 
 Use pipeline() when each item can be handled independently through multiple stages.
+
+## With and without a barrier
+
+\`\`\`javascript
+// With a barrier (parallel → wait for all → parallel):
+// time = sum of the slowest across each stage
+const explained = await parallel(CONCEPTS.map(c => () => agent('Explain: ' + c)))
+const simplified = await parallel(explained.filter(Boolean).map(e => () => agent('Simplify: ' + e)))
+
+// Without a barrier (pipeline): each item moves forward as soon as it is ready
+// time = slowest single chain
+const results = await pipeline(
+  CONCEPTS,
+  concept => agent('Explain: ' + concept, { label: 'explain' }),
+  (explanation, concept) => agent('Simplify: ' + explanation, { label: 'simplify' })
+)
+\`\`\`
+
+A barrier is needed only if the simplification must compare **all** explanations together before answering.
 `,
     quiz: {
       q: 'When is a parallel barrier justified between stages?',
