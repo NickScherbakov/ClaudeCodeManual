@@ -57,6 +57,29 @@ GitHub: https://github.com/NickScherbakov/ClaudeCodeManual
 
 ---
 
+## Reddit r/ClaudeAI — English post
+
+```
+**I built a free Russian-language course on Claude Code's Workflow tool (15 chapters + 14 labs)**
+
+Most Claude Code tutorials stop at "write a prompt." This course is about what comes next: the Workflow tool — Claude Code's built-in multi-agent orchestrator.
+
+What you can do with it that a single prompt can't:
+- Run 10+ agents in parallel across a 300-file codebase
+- Verify each finding with an independent skeptic agent (adversarial verify)
+- Resume from the exact point of failure without re-running completed work
+- Scale analysis depth to your token budget
+
+The course is designed for Russian-speaking learners, but the code examples and Workflow scripts are language-agnostic.
+
+Interactive trainer (browser, no install): https://nickscherbakov.github.io/ClaudeCodeManual/
+GitHub (source + labs + reference solutions): https://github.com/NickScherbakov/ClaudeCodeManual
+
+A ⭐ on GitHub helps more people find it.
+```
+
+---
+
 ## GitHub Release Notes (v1.0)
 
 ```markdown

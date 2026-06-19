@@ -1,5 +1,7 @@
 # Claude Code: Advanced Techniques
 
+> One prompt can't audit 300 files, verify each finding independently, and resume where it left off. The **Workflow tool** built into Claude Code can — and this course shows exactly how.
+
 **The first comprehensive Russian-language course on multi-agent orchestration with Claude Code (Opus 4.8)**
 
 [![Live Trainer](https://img.shields.io/badge/Interactive_Trainer-online-brightgreen)](https://nickscherbakov.github.io/ClaudeCodeManual/)
@@ -26,6 +28,8 @@ The course is organized around **designing systems from the goal backward** — 
 ## **[→ Open the Interactive Trainer](https://nickscherbakov.github.io/ClaudeCodeManual/)**
 
 15 chapters + 14 hands-on labs. No build step — opens directly in the browser.
+
+*The Chapter 0 wizard generates a starter workflow for your specific task. Progress saved in localStorage.*
 
 ---
 
