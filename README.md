@@ -8,6 +8,8 @@
 [![License: CC0](https://img.shields.io/badge/License-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Stars](https://img.shields.io/github/stars/NickScherbakov/ClaudeCodeManual?style=social)](https://github.com/NickScherbakov/ClaudeCodeManual)
 
+[![Preview](web/preview.svg)](https://nickscherbakov.github.io/ClaudeCodeManual/)
+
 > **Note:** Content is in Russian. See [README_RU.md](README_RU.md) for the full guide in Russian.
 
 ---

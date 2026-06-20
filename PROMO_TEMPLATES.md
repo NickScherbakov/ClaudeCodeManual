@@ -230,13 +230,57 @@ Here are the three patterns that took me the longest to understand.
 
 ---
 
+---
+
+## Anthropic Community Forum (community.anthropic.com)
+
+**Category:** Projects & Showcases
+
+**Title:**
+```
+Free course on Claude Code's Workflow tool — 15 chapters, 14 labs, Russian-language
+```
+
+**Body:**
+```
+I've been building with Claude Code's Workflow tool for several months and found there weren't many practical learning resources beyond the official docs. So I put together a comprehensive course.
+
+**What it covers:**
+
+The Workflow tool is Claude Code's built-in multi-agent orchestrator. The course focuses on the patterns that aren't obvious from the docs:
+
+- `pipeline()` vs `parallel()` barrier — when each applies and why misusing parallel() wastes wall-clock time
+- **Loop-until-dry**: discovery that keeps running until findings are exhausted (with the subtle dedup-against-seen trap)
+- **Adversarial verify**: skeptic agents that default to `refuted: true`, with majority vote to survive
+- **Budget-aware loops**: `while (budget.total && budget.remaining() > N)` — why the guard on `budget.total` is necessary
+- `schema` on `agent()`: forcing structured JSON output with auto-retry on mismatch
+
+**Format:**
+- 15 interactive chapters (browser-based trainer, no install, progress in localStorage)
+- 14 hands-on labs with runnable workflow scripts
+- Reference solutions for key labs
+
+**Try it:**
+- Interactive trainer: https://nickscherbakov.github.io/ClaudeCodeManual/
+- GitHub: https://github.com/NickScherbakov/ClaudeCodeManual
+
+Run `examples/quick-demo.js` as a workflow in Claude Code to see parallel search + adversarial verify in ~30 seconds.
+
+Content is in Russian (first comprehensive Russian-language resource on this topic), but all code examples and workflow scripts are language-agnostic.
+
+Happy to discuss any of the patterns or answer questions about the Workflow tool.
+```
+
+---
+
 ## Каналы для публикации (по приоритету)
 
 1. **Hacker News Show HN** — шаблон выше. Пик трафика = сотни звёзд за 24ч
 2. **ProductHunt** — шаблон выше. Нужен аккаунт с историей (не новый)
 3. **Habr** — статья (HABR_ARTICLE_DRAFT.md готов, адаптировать под аккаунт)
 4. **Twitter/X** — тред выше
-5. **@claude_ai_ru** или аналогичные Telegram-каналы об AI
-6. **@ai_machinelearning_big_data** (крупный RU AI-канал)
-7. **Reddit r/ClaudeAI** — английская версия поста
-8. **Dev.to** — английская статья (шаблон выше)
+5. **Anthropic Community Forum** — community.anthropic.com, шаблон выше
+6. **@claude_ai_ru** или аналогичные Telegram-каналы об AI
+7. **@ai_machinelearning_big_data** (крупный RU AI-канал)
+8. **Reddit r/ClaudeAI** — английская версия поста
+9. **Dev.to** — английская статья (шаблон выше)
