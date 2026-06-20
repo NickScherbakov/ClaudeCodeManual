@@ -139,6 +139,20 @@ body {
   flex-direction: column;
   gap: 8px;
 }
+.star-cta {
+  display: block;
+  text-align: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #f6a61a22;
+  border: 1px solid #f6a61a66;
+  color: #f6a61a;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.star-cta:hover { background: #f6a61a33; border-color: #f6a61a; }
 
 /* Buttons */
 button, .ghost {
