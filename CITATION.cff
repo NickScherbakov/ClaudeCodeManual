@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use or reference this course, please cite it as follows."
+type: software
+title: "Claude Code: Advanced Techniques — Interactive Course"
+abstract: "First comprehensive Russian-language interactive course on multi-agent orchestration with Claude Code (Opus 4.8). Covers the Workflow tool, pipeline/parallel patterns, adversarial verification, budget-aware loops, and goal-first system design. Includes 15 web-based chapters, 14 hands-on labs, and runnable workflow scripts."
+authors:
+  - name: "NickScherbakov"
+    alias: "NickScherbakov"
+repository-code: "https://github.com/NickScherbakov/ClaudeCodeManual"
+url: "https://nickscherbakov.github.io/ClaudeCodeManual/"
+license: CC0-1.0
+keywords:
+  - claude-code
+  - multi-agent
+  - workflow
+  - orchestration
+  - llm
+  - anthropic
+  - interactive-course
+  - russian

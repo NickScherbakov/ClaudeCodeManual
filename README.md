@@ -106,10 +106,15 @@ Submitted to and pending review by:
 | hesreallyhim/awesome-claude-code | 47k | Issue #2081 |
 | ComposioHQ/awesome-claude-skills | 65k | PR #1125 |
 | aishwaryanr/awesome-generative-ai-guide | 27k | PR #161 |
-| VoltAgent/awesome-claude-code-subagents | 22k | PR pending |
 | caramaschiHG/awesome-ai-agents-2026 | 1.1k | PR #363 |
 | rohitg00/awesome-claude-code-toolkit | 2.1k | PR #572 |
 | jqueryscript/awesome-claude-code | 430 | PR #423 |
+
+---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=NickScherbakov/ClaudeCodeManual&type=Date)](https://star-history.com/#NickScherbakov/ClaudeCodeManual&Date)
 
 ---
 
