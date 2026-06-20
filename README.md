@@ -33,19 +33,27 @@ The course is organized around **designing systems from the goal backward** — 
 
 ---
 
+## Try it in 30 seconds
+
+Clone the repo, then tell Claude Code:
+
+```
+Run examples/quick-demo.js as workflow +30k
+```
+
+You'll see three agents searching in parallel, then a skeptic agent verifying each finding independently. That's the core Workflow pattern — this course teaches you to build systems like this from scratch.
+
 ## Quick Start
 
 ```bash
 git clone https://github.com/NickScherbakov/ClaudeCodeManual.git
-cd ClaudeCodeManual
 ```
 
-In Claude Code:
+Open `web/index.html` in your browser for the interactive 15-chapter trainer, or run the full codebase audit demo:
+
 ```
 Run project/system.js as workflow +100k
 ```
-
-Or open `web/index.html` in your browser for the interactive trainer.
 
 ---
 
