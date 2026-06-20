@@ -153,6 +153,8 @@ body {
   transition: background 0.15s, border-color 0.15s;
 }
 .star-cta:hover { background: #f6a61a33; border-color: #f6a61a; }
+.share-row { display: flex; gap: 8px; }
+.share-link { flex: 1; text-align: center; font-size: 15px; text-decoration: none; }
 
 /* Buttons */
 button, .ghost {
