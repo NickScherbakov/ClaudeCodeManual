@@ -573,8 +573,9 @@ function bindEvents() {
     save();
     renderSidebar();
     const ch = chapters().find(c => c.id === state.current);
-    document.getElementById('markDoneBtn').textContent =
-      state.progress[ch.id] ? tr('passed') : tr('markDone');
+    const isDone = state.progress[ch.id];
+    document.getElementById('markDoneBtn').textContent = isDone ? tr('passed') : tr('markDone');
+    if (isDone) showSharePrompt(ch);
   };
   document.getElementById('themeBtn').onclick = () => {
     state.theme = state.theme === 'dark' ? 'light' : 'dark';
@@ -620,6 +621,33 @@ function bindEvents() {
     const id = a.getAttribute('href').slice(1);
     navigateTo(id);
   });
+}
+
+// ---------- Share prompt ----------
+
+function showSharePrompt(ch) {
+  const existing = document.getElementById('sharePrompt');
+  if (existing) existing.remove();
+
+  const url = 'https://nickscherbakov.github.io/ClaudeCodeManual/';
+  const tweetText = encodeURIComponent(
+    `Прошёл «${ch.title}» в бесплатном курсе по Workflow tool Claude Code.\n15 глав + 14 лабов — открывается в браузере:\n${url}`
+  );
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+
+  const div = document.createElement('div');
+  div.id = 'sharePrompt';
+  div.innerHTML = `
+    <div style="margin-top:2rem;padding:1rem 1.25rem;border-radius:10px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <span style="flex:1;min-width:180px;font-size:14px;color:var(--fg-dim)">Глава пройдена! Если курс полезен — помогите другим его найти:</span>
+      <a href="${twitterUrl}" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#1da1f233;border:1px solid #1da1f266;color:#1da1f2;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">Поделиться в X</a>
+      <a href="https://github.com/NickScherbakov/ClaudeCodeManual" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#f6a61a22;border:1px solid #f6a61a66;color:#f6a61a;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">⭐ Star on GitHub</a>
+      <button onclick="document.getElementById('sharePrompt').remove()" style="padding:7px 10px;border-radius:7px;background:transparent;border:1px solid var(--border);color:var(--fg-dim);cursor:pointer;font-size:12px">✕</button>
+    </div>`;
+
+  const footer = document.getElementById('chapterNav-foot');
+  footer.parentNode.insertBefore(div, footer);
+  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // ---------- Init ----------
