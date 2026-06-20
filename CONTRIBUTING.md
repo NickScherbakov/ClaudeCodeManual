@@ -1,58 +1,70 @@
-# Участие в проекте
+# Участие в проекте / Contributing
 
-Спасибо, что хотите помочь. Этот курс — живой документ, и любой вклад ценен.
+*English below.*
 
-## Что можно улучшить
+## По-русски
 
-### Лёгкий вклад
-- **Опечатки и ошибки** — просто откройте PR с исправлением
-- **Неточности в примерах кода** — если пример неправильный, исправьте и объясните почему
-- **Переводы шпаргалок** — `cheatsheets/` только на русском, переводы приветствуются
+Курс живой — любые улучшения приветствуются.
 
-### Средний вклад
-- **Новые лабораторные задания** — по образцу существующих в `labs/`
-- **Дополнительные примеры workflow** — реальные задачи в `examples/`
-- **Улучшение существующих глав** — добавление кода, исправление объяснений
+### Что принимается
 
-### Большой вклад
-- **Новые главы** — обсудите идею в Issues перед написанием
-- **Новые интерактивные виджеты** в веб-тренажёре (см. `web/app.js`)
+| Тип вклада | Куда |
+|-----------|------|
+| Ошибка в тексте главы или лаба | Issue или PR в `web/content.js` / `labs/` |
+| Новый пример Workflow-скрипта | PR в `examples/` |
+| Перевод на другой язык | Обсудите в Discussions сначала |
+| Исправление в шпаргалках | PR в `cheatsheets/` |
+| Ошибка в `app.js` / `styles.css` | PR с описанием симптома |
 
-## Как отправить PR
+### Правила для Workflow-скриптов
 
-```bash
-git clone https://github.com/NickScherbakov/ClaudeCodeManual.git
-cd ClaudeCodeManual
-git checkout -b my-fix
-# ... внесите изменения ...
-git commit -m "fix: описание изменения"
-git push origin my-fix
-# Откройте PR на GitHub
-```
+Файлы в `examples/` и `labs/` — это **скрипты для Workflow tool**, не Node.js модули. При добавлении нового примера:
 
-## Правила для контента
+1. Файл должен начинаться с `export const meta = { name, description, phases }` — чистый литерал, без переменных.
+2. Каждый `phase()` в теле должен совпадать с заголовком в `meta.phases`.
+3. `parallel()` возвращает `null` при ошибке агента — всегда `.filter(Boolean)`.
+4. `Date.now()`, `Math.random()`, `new Date()` без аргументов недоступны (ломают resume).
+5. Бюджетные циклы: `while (budget.total && budget.remaining() > N)` — не `while (budget.remaining() > N)`.
 
-### Текст глав и лабов
-- Язык: **русский** (главы и лабы)
-- Стиль: сначала проблема, потом инструмент (не наоборот)
-- Тон: спокойный, практический, без жаргона где можно
-- Комментарии в коде: допускаются краткие, объясняющие "почему"
+Подробно: [`cheatsheets/workflow-api.md`](cheatsheets/workflow-api.md)
 
-### Workflow-скрипты (`.js` файлы)
-- Только в `project/`, `labs/`, `solutions/`, `examples/`
-- Это скрипты для Workflow tool — НЕ Node.js модули
-- `export const meta` — чистый литерал, без переменных
-- `meta.phases[].title` должны совпадать с вызовами `phase('...')`
-- `parallel()` всегда `.filter(Boolean)` на результате
-- `Date.now()`, `Math.random()` — не использовать (ломают resume)
+### Правки в веб-тренажёре
 
-### Веб-тренажёр (`web/`)
-- Единственный источник правды для глав — `web/content.js`
-- При изменении `content.js` или `app.js` — повысьте `?v=N` в `index.html`
-- Каждая глава: `{ id, num, title, summary, body (markdown), quiz? }`
+Весь текст глав живёт в `web/content.js` (массив `CHAPTERS`). После правки:
+- Увеличьте `v=N` в `web/index.html` для `content.js?v=N` — иначе браузер отдаёт кэш.
+- Не трогайте `web/app.js` без нужды — там роутинг и рендеринг.
 
-## Вопросы и обсуждения
+### Процесс
 
-Прежде чем делать большое изменение — откройте Issue или напишите в
-[Discussions](https://github.com/NickScherbakov/ClaudeCodeManual/discussions).
-Это сэкономит время всем.
+1. Fork → ветка → PR
+2. Опишите проблему, которую решает PR (не "что сделано", а "зачем")
+3. Если PR меняет текст на русском — убедитесь, что тон совпадает с соседними главами
+
+---
+
+## In English
+
+### What's welcome
+
+- Typos and factual errors in chapters or labs → PR
+- New runnable Workflow script examples → PR in `examples/`
+- Bug in `app.js` or `styles.css` → PR with description of the symptom
+- Translation to another language → open a Discussion first
+
+### Workflow script rules
+
+See [`cheatsheets/workflow-api.md`](cheatsheets/workflow-api.md) for the full reference. Key rules:
+- `meta` must be a pure literal
+- Always `.filter(Boolean)` after `parallel()`
+- No `Date.now()` / `Math.random()` — they break workflow resume
+- Budget loops must guard on `budget.total`
+
+### Process
+
+1. Fork → branch → PR
+2. Describe the problem the PR solves, not just what it changes
+3. Keep Russian content in Russian — this is a Russian-language course
+
+---
+
+**Questions?** Open a [Discussion](https://github.com/NickScherbakov/ClaudeCodeManual/discussions).
