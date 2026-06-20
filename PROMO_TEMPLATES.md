@@ -280,7 +280,21 @@ Happy to discuss any of the patterns or answer questions about the Workflow tool
 3. **Habr** — статья (HABR_ARTICLE_DRAFT.md готов, адаптировать под аккаунт)
 4. **Twitter/X** — тред выше
 5. **Anthropic Community Forum** — community.anthropic.com, шаблон выше
-6. **@claude_ai_ru** или аналогичные Telegram-каналы об AI
+6. **@klodkot** — Telegram-канал специально о Claude Code на русском, ведёт @glebkalinin.
+   DM @glebkalinin с просьбой упомянуть курс (шаблон ниже). Самая целевая аудитория.
 7. **@ai_machinelearning_big_data** (крупный RU AI-канал)
 8. **Reddit r/ClaudeAI** — английская версия поста
 9. **Dev.to** — английская статья (шаблон выше)
+
+---
+
+## DM для @glebkalinin (автор @klodkot)
+
+```
+Привет! Я сделал бесплатный русскоязычный курс по Claude Code Workflow tool — первый такой на русском (15 глав, 14 лабов, интерактивный тренажёр в браузере).
+
+Может, подойдёт для упоминания в @klodkot?
+
+Тренажёр: https://nickscherbakov.github.io/ClaudeCodeManual/
+GitHub: https://github.com/NickScherbakov/ClaudeCodeManual
+```
