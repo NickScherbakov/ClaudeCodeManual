@@ -364,7 +364,7 @@ while (dry < 2) {
 log(\`Найдено \${risks.length} рисков за \${seen.size} кандидатов\`)
 \`\`\`
 
-Обратите внимание: `seen` хранит **всех кандидатов** — и принятых, и отклонённых верификацией.
+Обратите внимание: \`seen\` хранит **всех кандидатов** — и принятых, и отклонённых верификацией.
 Если хранить только принятых, отклонённые находки будут появляться снова в каждом раунде.
 `,
     quiz: {
@@ -683,7 +683,7 @@ if (highGaps.length > 0) {
 
     Запомни: этот проект строит workflow для анализа договорных рисков. Финальный артефакт — проверенный отчёт о рисках, а не общий пересказ.
 
-Claude сохранит этот факт в файл под `~/.claude/projects/.../memory/`. Структура файла:
+Claude сохранит этот факт в файл под \`~/.claude/projects/.../memory/\`. Структура файла:
 
 \`\`\`markdown
 ---
@@ -809,7 +809,7 @@ while (budget.total && budget.remaining() > 50_000) {
 }
 \`\`\`
 
-Без `budget.total &&` цикл при отсутствии бюджета превращается в бесконечный.
+Без \`budget.total &&\` цикл при отсутствии бюджета превращается в бесконечный.
 
 ## Масштабирование флота агентов
 
@@ -1855,7 +1855,7 @@ Example:
 
     Remember: this project builds workflows for contract-risk analysis. The final artifact is a verified risk report, not a general summary.
 
-Claude saves that fact to a file under `~/.claude/projects/.../memory/`. File format:
+Claude saves that fact to a file under \`~/.claude/projects/.../memory/\`. File format:
 
 \`\`\`markdown
 ---
