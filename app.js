@@ -630,18 +630,18 @@ function showSharePrompt(ch) {
   if (existing) existing.remove();
 
   const url = 'https://nickscherbakov.github.io/ClaudeCodeManual/';
-  const tweetText = encodeURIComponent(
-    `Прошёл «${ch.title}» в бесплатном курсе по Workflow tool Claude Code.\n15 глав + 14 лабов — открывается в браузере:\n${url}`
-  );
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+  const shareText = `Прошёл(а) «${ch.title}» в бесплатном курсе по Workflow tool Claude Code. 15 глав + 14 лабов — открывается в браузере: ${url}`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+  const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
 
   const div = document.createElement('div');
   div.id = 'sharePrompt';
   div.innerHTML = `
     <div style="margin-top:2rem;padding:1rem 1.25rem;border-radius:10px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
       <span style="flex:1;min-width:180px;font-size:14px;color:var(--fg-dim)">Глава пройдена! Если курс полезен — помогите другим его найти:</span>
-      <a href="${twitterUrl}" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#1da1f233;border:1px solid #1da1f266;color:#1da1f2;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">Поделиться в X</a>
-      <a href="https://github.com/NickScherbakov/ClaudeCodeManual" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#f6a61a22;border:1px solid #f6a61a66;color:#f6a61a;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">⭐ Star on GitHub</a>
+      <a href="${tgUrl}" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#2ca5e022;border:1px solid #2ca5e066;color:#2ca5e0;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">✈ Telegram</a>
+      <a href="${twitterUrl}" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#1da1f233;border:1px solid #1da1f266;color:#1da1f2;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">𝕏 Twitter</a>
+      <a href="https://github.com/NickScherbakov/ClaudeCodeManual" target="_blank" rel="noopener" style="padding:7px 14px;border-radius:7px;background:#f6a61a22;border:1px solid #f6a61a66;color:#f6a61a;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap">⭐ Star</a>
       <button onclick="document.getElementById('sharePrompt').remove()" style="padding:7px 10px;border-radius:7px;background:transparent;border:1px solid var(--border);color:var(--fg-dim);cursor:pointer;font-size:12px">✕</button>
     </div>`;
 
