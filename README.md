@@ -72,6 +72,22 @@ Run project/system.js as workflow +100k
 
 ---
 
+## Runnable Examples
+
+| File | What it does |
+|------|--------------|
+| `examples/quick-demo.js` | Quickstart: parallel search + adversarial verify in ~30 seconds |
+| `examples/code-review.js` | Code review: 4 scanners → dedup → 3 skeptics per finding (run on any JS file) |
+| `project/system.js` | Full codebase audit: analysis → verification → report |
+| `examples/publisher-manual/` | Publisher manual workflow |
+
+Run any of these in Claude Code:
+```
+Run examples/code-review.js as workflow +80k
+```
+
+---
+
 ## Repository Structure
 
 ```
