@@ -282,9 +282,29 @@ Happy to discuss any of the patterns or answer questions about the Workflow tool
 5. **Anthropic Community Forum** — community.anthropic.com, шаблон выше
 6. **@klodkot** — Telegram-канал специально о Claude Code на русском, ведёт @glebkalinin.
    DM @glebkalinin с просьбой упомянуть курс (шаблон ниже). Самая целевая аудитория.
-7. **@ai_machinelearning_big_data** (крупный RU AI-канал)
-8. **Reddit r/ClaudeAI** — английская версия поста
-9. **Dev.to** — английская статья (шаблон выше)
+7. **@tproger** (~80k подписчиков) — крупнейший RU dev-канал, регулярно публикует материалы про Claude/AI
+8. **@js_by_vladilen** (40-47k) — JS/AI фокус, публикует про Claude Code; DM или предложить статью
+9. **@llm_under_hood** — кейсы LLM-разработчиков; самый технически близкий канал после @klodkot
+10. **@purple_code_channel** — уже публиковал про Claude Code конкретно; хорошая точка входа
+11. **@ai_machinelearning_big_data** (крупный RU AI-канал)
+12. **Reddit r/ClaudeAI** — английская версия поста
+13. **Dev.to** — английская статья (шаблон выше)
+
+---
+
+## Новые awesome-list цели (требуют авторизации)
+
+| Репозиторий | Звёзды | Секция | Триггер |
+|-------------|--------|--------|---------|
+| travisvn/awesome-claude-skills | 13.6k | 📖 Tutorials & Guides → Written Tutorials | "да — travisvn" |
+| Hannibal046/Awesome-LLM | 27k | LLM Tutorials and Courses | "да — Hannibal" |
+| artnitolog/awesome-agent-learning | 134 (RU автор) | Курсы | "да — artnitolog" |
+| webfuse-com/awesome-claude | awesomeclaude.ai | Community Guides | "да — awesomeclaude" |
+| sfrangulov/claude-code-handbook-ru | RU handbook | Ресурсы | "да — sfrangulov" |
+| LangGPT/awesome-claude-code | pending | Guides & Documentation | "да — LangGPT" |
+
+**Также:** PR #572 (rohitg00/awesome-claude-code-toolkit) требует фикса: добавить "(Russian-language)" метку, убрать "no install."
+Авторизация: "да — fix572"
 
 ---
 
